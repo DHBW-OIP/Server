@@ -54,23 +54,63 @@ public class Server {
 		target = client.getAddressSpace().getNamespaceTable()
 				.toNodeId(r.getNodeId());
 
+		NodeId target1 = new NodeId(5, "Random1");
 		NodeId target2 = new NodeId(5, "Counter1");
+		NodeId target3 = new NodeId(5, "Expression1");
+		NodeId target4 = new NodeId(5, "Square1");
 
 		Subscription subscription = new Subscription();
-		MonitoredDataItem item = new MonitoredDataItem(target2,
+
+		MonitoredDataItem item1 = new MonitoredDataItem(target1,
 				Attributes.Value, MonitoringMode.Reporting);
 
-		subscription.addItem(item);
+		MonitoredDataItem item2 = new MonitoredDataItem(target2,
+				Attributes.Value, MonitoringMode.Reporting);
+
+		MonitoredDataItem item3 = new MonitoredDataItem(target3,
+				Attributes.Value, MonitoringMode.Reporting);
+
+		MonitoredDataItem item4 = new MonitoredDataItem(target4,
+				Attributes.Value, MonitoringMode.Reporting);
+
+		subscription.addItem(item1);
+		subscription.addItem(item2);
+		subscription.addItem(item3);
+		subscription.addItem(item4);
 		client.addSubscription(subscription);
 
-		item.setDataChangeListener(new MonitoredDataItemListener() {
+		item1.setDataChangeListener(new MonitoredDataItemListener() {
 
 			public void onDataChange(MonitoredDataItem arg0, DataValue arg1,
 					DataValue arg2) {
-				System.out.println(arg1);
+				OPC_Double newdata = new OPC_Double(arg1);
 
+				System.out.println(newdata.get_value());
 			}
 		});
+
+		/*
+		 * item2.setDataChangeListener(new MonitoredDataItemListener() {
+		 * 
+		 * public void onDataChange(MonitoredDataItem arg0, DataValue arg1,
+		 * DataValue arg2) { System.out.println(arg1);
+		 * 
+		 * } });
+		 * 
+		 * item3.setDataChangeListener(new MonitoredDataItemListener() {
+		 * 
+		 * public void onDataChange(MonitoredDataItem arg0, DataValue arg1,
+		 * DataValue arg2) { System.out.println(arg1);
+		 * 
+		 * } });
+		 * 
+		 * item4.setDataChangeListener(new MonitoredDataItemListener() {
+		 * 
+		 * public void onDataChange(MonitoredDataItem arg0, DataValue arg1,
+		 * DataValue arg2) { System.out.println(arg1);
+		 * 
+		 * } });
+		 */
 
 	}
 
