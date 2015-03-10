@@ -7,7 +7,7 @@ public class OPC_Double extends OPC {
 	private double _value;
 
 	public OPC_Double(DataValue arg) {
-		super();
+		super(arg);
 		this._value = arg.getValue().doubleValue();
 	}
 
