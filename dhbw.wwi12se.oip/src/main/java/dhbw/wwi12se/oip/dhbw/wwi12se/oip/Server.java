@@ -78,6 +78,7 @@ public class Server {
 				OPC_Double newdata = new OPC_Double(arg1);
 
 				System.out.println(newdata.get_value());
+				ObjectToXml.convert(newdata);
 			}
 		});
 

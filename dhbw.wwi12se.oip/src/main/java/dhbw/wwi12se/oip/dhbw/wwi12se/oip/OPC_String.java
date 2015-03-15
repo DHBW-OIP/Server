@@ -1,10 +1,19 @@
 package dhbw.wwi12se.oip.dhbw.wwi12se.oip;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.opcfoundation.ua.builtintypes.DataValue;
 
+@XmlRootElement
 public class OPC_String extends OPC {
 
-	public String _value;
+	@XmlElement
+	public String _value = null;
+
+	public OPC_String() {
+		super(null);
+	}
 
 	public OPC_String(DataValue arg) {
 		super(arg);
