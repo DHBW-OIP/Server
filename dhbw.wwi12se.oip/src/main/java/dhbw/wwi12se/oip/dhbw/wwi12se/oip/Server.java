@@ -19,6 +19,8 @@ import org.opcfoundation.ua.transport.security.SecurityMode;
 
 import com.prosysopc.ua.ApplicationIdentity;
 import com.prosysopc.ua.SecureIdentityException;
+import com.prosysopc.ua.ServiceException;
+import com.prosysopc.ua.StatusException;
 import com.prosysopc.ua.client.MonitoredDataItem;
 import com.prosysopc.ua.client.MonitoredDataItemListener;
 import com.prosysopc.ua.client.Subscription;
@@ -61,6 +63,11 @@ public class Server {
 		targets.add(new NodeId(5, "Expression1"));
 		targets.add(new NodeId(5, "Square1"));
 
+		generateSubscriptions(client, targets);
+	}
+
+	private static void generateSubscriptions(UaClient client,
+			ArrayList<NodeId> targets) throws ServiceException, StatusException {
 		Subscription subscription = new Subscription();
 		ArrayList<MonitoredDataItem> items = new ArrayList<MonitoredDataItem>();
 		for (NodeId nodeId : targets) {
@@ -81,30 +88,6 @@ public class Server {
 				ObjectToXml.convert(newdata);
 			}
 		});
-
-		/*
-		 * item2.setDataChangeListener(new MonitoredDataItemListener() {
-		 * 
-		 * public void onDataChange(MonitoredDataItem arg0, DataValue arg1,
-		 * DataValue arg2) { System.out.println(arg1);
-		 * 
-		 * } });
-		 * 
-		 * item3.setDataChangeListener(new MonitoredDataItemListener() {
-		 * 
-		 * public void onDataChange(MonitoredDataItem arg0, DataValue arg1,
-		 * DataValue arg2) { System.out.println(arg1);
-		 * 
-		 * } });
-		 * 
-		 * item4.setDataChangeListener(new MonitoredDataItemListener() {
-		 * 
-		 * public void onDataChange(MonitoredDataItem arg0, DataValue arg1,
-		 * DataValue arg2) { System.out.println(arg1);
-		 * 
-		 * } });
-		 */
-
 	}
 
 	/**
