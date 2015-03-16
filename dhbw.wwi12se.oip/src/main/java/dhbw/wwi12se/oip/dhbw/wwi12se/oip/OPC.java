@@ -3,8 +3,6 @@ package dhbw.wwi12se.oip.dhbw.wwi12se.oip;
 import javax.xml.bind.annotation.XmlElement;
 
 import org.opcfoundation.ua.builtintypes.DataValue;
-import org.opcfoundation.ua.builtintypes.DateTime;
-import org.opcfoundation.ua.builtintypes.UnsignedInteger;
 
 public class OPC extends InputAdapter {
 
@@ -14,26 +12,26 @@ public class OPC extends InputAdapter {
 	@XmlElement
 	private String _sourceSystem;
 	@XmlElement
-	private org.opcfoundation.ua.builtintypes.UnsignedInteger _dataQuality;
+	private Integer _dataQuality;
 	@XmlElement
-	private DateTime _sourceTimestamp;
+	private Long _sourceTimestamp;
 
 	public OPC(DataValue arg) {
 		super();
 
-		this._dataQuality = arg.getStatusCode().getValue();
-		this._sourceTimestamp = arg.getSourceTimestamp();
+		// this._dataQuality = (Integer) arg.getStatusCode();
+		this._sourceTimestamp = arg.getSourceTimestamp().getMilliSeconds();
 	}
 
 	public String get_sensorName() {
 		return _sensorName;
 	}
 
-	public UnsignedInteger get_dataQuality() {
+	public Integer get_dataQuality() {
 		return _dataQuality;
 	}
 
-	public DateTime get_sourceTimestamp() {
+	public Long get_sourceTimestamp() {
 		return _sourceTimestamp;
 	}
 }
