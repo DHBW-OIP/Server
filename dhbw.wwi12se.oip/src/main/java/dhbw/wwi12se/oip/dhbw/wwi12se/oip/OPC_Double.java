@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.opcfoundation.ua.builtintypes.DataValue;
 
+import com.prosysopc.ua.client.MonitoredDataItem;
+
 @XmlRootElement
 public class OPC_Double extends OPC {
 
@@ -12,11 +14,11 @@ public class OPC_Double extends OPC {
 	private double _value;
 
 	public OPC_Double() {
-		super(null);
+		super(null, null, null);
 	}
 
-	public OPC_Double(DataValue arg) {
-		super(arg);
+	public OPC_Double(String sourcesystem, MonitoredDataItem arg0, DataValue arg) {
+		super(sourcesystem, arg0, arg);
 		this._value = arg.getValue().doubleValue();
 	}
 

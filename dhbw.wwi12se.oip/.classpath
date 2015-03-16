@@ -36,6 +36,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Daniel.Hartmann/Dropbox/Uni/Semester 6/Optimierung industrieller Prozesse - Herr Julian Reichwald/workspace/OIP/lib/rabbitmq-client.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

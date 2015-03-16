@@ -27,12 +27,12 @@ import com.prosysopc.ua.client.Subscription;
 import com.prosysopc.ua.client.UaClient;
 
 public class Server {
+	public static String sourcesystem = "opc.tcp://localhost:53530/OPCUA/SimulationServer";
 
 	public static void main(String[] args) throws Exception {
 
 		// Create client object
-		UaClient client = new UaClient(
-				"opc.tcp://localhost:53530/OPCUA/SimulationServer");
+		UaClient client = new UaClient(sourcesystem);
 		client.setSecurityMode(SecurityMode.NONE);
 
 		initialize(client);
@@ -82,9 +82,9 @@ public class Server {
 
 			public void onDataChange(MonitoredDataItem arg0, DataValue arg1,
 					DataValue arg2) {
-				OPC_Double newdata = new OPC_Double(arg1);
+				OPC_Double newdata = new OPC_Double(sourcesystem, arg0, arg1);
 
-				System.out.println(newdata.get_value());
+				// System.out.println(newdata.get_value());
 				ObjectToXml.convert(newdata);
 			}
 		});
