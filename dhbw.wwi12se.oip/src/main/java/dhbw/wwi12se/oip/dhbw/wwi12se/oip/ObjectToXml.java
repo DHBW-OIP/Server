@@ -39,10 +39,10 @@ public class ObjectToXml {
 			Connection connection = factory.newConnection();
 			Channel channel = connection.createChannel();
 
-			System.out.println("Create QUEUE");
-			channel.queueDeclare("QUEUE", false, false, false, null);
+			// System.out.println("Create QUEUE");
+			channel.queueDeclare("QUEUE2", false, false, false, null);
 			System.out.println("Send Data:");
-			channel.basicPublish("", "QUEUE", null, sw.toString().getBytes());
+			channel.basicPublish("", "QUEUE2", null, sw.toString().getBytes());
 			System.out.println("Sent '" + sw.toString() + "'");
 
 			sw.close();
