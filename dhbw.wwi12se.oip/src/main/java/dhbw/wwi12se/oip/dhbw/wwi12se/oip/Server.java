@@ -95,15 +95,23 @@ public class Server {
 
 	private static OPC createOPC(MonitoredDataItem monitoredDataItem,
 			DataValue dataValue, DataValue dataValue2) {
-		Object dataValueObject = dataValue.getValue().getValue();
-		if (dataValueObject instanceof Double) {
-			return new OPC_Double(sourcesystem, monitoredDataItem, dataValue);
-		} else if (dataValueObject instanceof Integer) {
-			return new OPC_Integer(sourcesystem, monitoredDataItem, dataValue);
-		} else if (dataValueObject instanceof Float) {
-			return new OPC_Float(sourcesystem, monitoredDataItem, dataValue);
-		} else if (dataValueObject instanceof String) {
-			return new OPC_String(sourcesystem, monitoredDataItem, dataValue);
+		try {
+			Object dataValueObject = dataValue.getValue().getValue();
+			if (dataValueObject instanceof Double) {
+				return new OPC_Double(sourcesystem, monitoredDataItem,
+						dataValue);
+			} else if (dataValueObject instanceof Integer) {
+				return new OPC_Integer(sourcesystem, monitoredDataItem,
+						dataValue);
+			} else if (dataValueObject instanceof Float) {
+				return new OPC_Float(sourcesystem, monitoredDataItem, dataValue);
+			} else if (dataValueObject instanceof String) {
+				return new OPC_String(sourcesystem, monitoredDataItem,
+						dataValue);
+			}
+		} catch (NullPointerException e) {
+			System.out.println(e.getMessage());
+			return null;
 		}
 		return null;
 	}
