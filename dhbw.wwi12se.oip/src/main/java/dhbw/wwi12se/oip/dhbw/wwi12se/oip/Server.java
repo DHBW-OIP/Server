@@ -87,7 +87,7 @@ public class Server {
 
 						public void onDataChange(MonitoredDataItem arg0,
 								DataValue arg1, DataValue arg2) {
-							createOPC(arg0, arg1, arg2);
+							ObjectToXml.convert(createOPC(arg0, arg1, arg2));
 						}
 					});
 		}
