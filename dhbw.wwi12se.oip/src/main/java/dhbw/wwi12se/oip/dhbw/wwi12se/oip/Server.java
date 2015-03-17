@@ -58,11 +58,10 @@ public class Server {
 				.toNodeId(r.getNodeId());
 
 		ArrayList<NodeId> targets = new ArrayList<NodeId>();
-		targets.add(new NodeId(5, "Random1"));
-		targets.add(new NodeId(5, "Counter1"));
-		targets.add(new NodeId(5, "Expression1"));
-		targets.add(new NodeId(5, "Square1"));
-
+		for (Targets targets2 : Targets.values()) {
+			targets.add(new NodeId(targets2.getNameSpace(), targets2
+					.getSensorName()));
+		}
 		generateSubscriptions(client, targets);
 	}
 
@@ -77,17 +76,36 @@ public class Server {
 			items.add(dataItem);
 		}
 		client.addSubscription(subscription);
+		setDataChangeListeners(items);
+	}
 
-		items.get(0).setDataChangeListener(new MonitoredDataItemListener() {
+	private static void setDataChangeListeners(
+			ArrayList<MonitoredDataItem> items) {
+		for (MonitoredDataItem monitoredDataItem : items) {
+			monitoredDataItem
+					.setDataChangeListener(new MonitoredDataItemListener() {
 
-			public void onDataChange(MonitoredDataItem arg0, DataValue arg1,
-					DataValue arg2) {
-				OPC_Double newdata = new OPC_Double(sourcesystem, arg0, arg1);
+						public void onDataChange(MonitoredDataItem arg0,
+								DataValue arg1, DataValue arg2) {
+							createOPC(arg0, arg1, arg2);
+						}
+					});
+		}
+	}
 
-				// System.out.println(newdata.get_value());
-				ObjectToXml.convert(newdata);
-			}
-		});
+	private static OPC createOPC(MonitoredDataItem monitoredDataItem,
+			DataValue dataValue, DataValue dataValue2) {
+		Object dataValueObject = dataValue.getValue().getValue();
+		if (dataValueObject instanceof Double) {
+			return new OPC_Double(sourcesystem, monitoredDataItem, dataValue);
+		} else if (dataValueObject instanceof Integer) {
+			return new OPC_Integer(sourcesystem, monitoredDataItem, dataValue);
+		} else if (dataValueObject instanceof Float) {
+			return new OPC_Float(sourcesystem, monitoredDataItem, dataValue);
+		} else if (dataValueObject instanceof String) {
+			return new OPC_String(sourcesystem, monitoredDataItem, dataValue);
+		}
+		return null;
 	}
 
 	/**
