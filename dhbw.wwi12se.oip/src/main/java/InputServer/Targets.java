@@ -1,4 +1,4 @@
-package dhbw.wwi12se.oip.dhbw.wwi12se.oip;
+package InputServer;
 
 public enum Targets {
 	Random1(5, "Random1"), Counter1(5, "Counter1"), Expression1(5,

@@ -1,4 +1,4 @@
-package dhbw.wwi12se.oip.dhbw.wwi12se.oip;
+package Model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

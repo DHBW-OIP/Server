@@ -1,8 +1,10 @@
-package dhbw.wwi12se.oip.dhbw.wwi12se.oip;
+package Model;
 
 import javax.xml.bind.annotation.XmlElement;
 
 import org.opcfoundation.ua.builtintypes.DataValue;
+
+import InputServer.InputAdapter;
 
 import com.prosysopc.ua.client.MonitoredDataItem;
 

@@ -1,4 +1,4 @@
-package dhbw.wwi12se.oip.dhbw.wwi12se.oip;
+package InputServer;
 
 import java.io.StringWriter;
 

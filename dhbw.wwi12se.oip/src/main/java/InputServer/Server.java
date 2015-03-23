@@ -1,4 +1,4 @@
-package dhbw.wwi12se.oip.dhbw.wwi12se.oip;
+package InputServer;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -16,6 +16,12 @@ import org.opcfoundation.ua.core.Identifiers;
 import org.opcfoundation.ua.core.MonitoringMode;
 import org.opcfoundation.ua.core.ReferenceDescription;
 import org.opcfoundation.ua.transport.security.SecurityMode;
+
+import Model.OPC;
+import Model.OPC_Double;
+import Model.OPC_Float;
+import Model.OPC_Integer;
+import Model.OPC_String;
 
 import com.prosysopc.ua.ApplicationIdentity;
 import com.prosysopc.ua.SecureIdentityException;
