@@ -79,6 +79,9 @@ public class Server {
 		setDataChangeListeners(items);
 	}
 
+	/**
+	 * @param {@link MonitoredDataItem}
+	 */
 	private static void setDataChangeListeners(
 			ArrayList<MonitoredDataItem> items) {
 		for (MonitoredDataItem monitoredDataItem : items) {
@@ -93,6 +96,15 @@ public class Server {
 		}
 	}
 
+	/**
+	 * Ueberprüft {@link DataValue} auf den DatenTyp. Erzeugt auf Basis dessen
+	 * das zugehörige {@link OPC}-Objekt.
+	 * 
+	 * @param monitoredDataItem
+	 * @param dataValue
+	 * @param dataValue2
+	 * @return {@link OPC}
+	 */
 	private static OPC createOPC(MonitoredDataItem monitoredDataItem,
 			DataValue dataValue, DataValue dataValue2) {
 		try {
