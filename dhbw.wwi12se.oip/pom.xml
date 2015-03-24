@@ -26,5 +26,10 @@
     	<artifactId>amqp-client</artifactId>
     	<version>3.5.0</version>
     </dependency>
+    <dependency>
+    	<groupId>com.espertech</groupId>
+    	<artifactId>esper</artifactId>
+    	<version>5.2.0</version>
+    </dependency>
   </dependencies>
 </project>
