@@ -1,6 +1,7 @@
 package Model;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.opcfoundation.ua.builtintypes.DataValue;
 
@@ -8,6 +9,7 @@ import InputServer.InputAdapter;
 
 import com.prosysopc.ua.client.MonitoredDataItem;
 
+@XmlRootElement
 public class OPC extends InputAdapter {
 
 	@XmlElement
@@ -18,6 +20,9 @@ public class OPC extends InputAdapter {
 	private String _dataQuality;
 	@XmlElement
 	private Long _sourceTimestamp;
+
+	public OPC() {
+	}
 
 	public OPC(String sourcesystem, MonitoredDataItem arg0, DataValue arg) {
 		super();

@@ -14,7 +14,6 @@ public class OPC_Integer extends OPC {
 	private int _value;
 
 	public OPC_Integer() {
-		super(null, null, null);
 	}
 
 	public OPC_Integer(String sourcesystem, MonitoredDataItem arg0,

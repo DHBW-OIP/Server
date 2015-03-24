@@ -14,7 +14,6 @@ public class OPC_Double extends OPC {
 	private double _value;
 
 	public OPC_Double() {
-		super(null, null, null);
 	}
 
 	public OPC_Double(String sourcesystem, MonitoredDataItem arg0, DataValue arg) {

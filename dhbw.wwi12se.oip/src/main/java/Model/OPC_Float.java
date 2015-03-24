@@ -14,7 +14,6 @@ public class OPC_Float extends OPC {
 	private float _value;
 
 	public OPC_Float() {
-		super(null, null, null);
 	}
 
 	public OPC_Float(String sourcesystem, MonitoredDataItem arg0, DataValue arg) {

@@ -14,7 +14,6 @@ public class OPC_String extends OPC {
 	public String _value = null;
 
 	public OPC_String() {
-		super(null, null, null);
 	}
 
 	public OPC_String(String sourcesystem, MonitoredDataItem arg0, DataValue arg) {
