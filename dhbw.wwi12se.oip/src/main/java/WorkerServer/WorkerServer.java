@@ -8,6 +8,8 @@ import javax.xml.bind.Unmarshaller;
 import Model.OPC_Double;
 import Model.OPC_Integer;
 
+import com.espertech.esper.client.EPServiceProvider;
+import com.espertech.esper.client.EPServiceProviderManager;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -19,6 +21,9 @@ public class WorkerServer {
 
 	public static void main(String[] argv) throws java.io.IOException,
 			java.lang.InterruptedException {
+
+		// Reg. EsperService
+		NRTA.startNRTA();
 
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost("localhost");
@@ -32,6 +37,9 @@ public class WorkerServer {
 		channel.basicConsume(QUEUE_NAME, true, consumer);
 		try {
 			while (true) {
+				EPServiceProvider epService = EPServiceProviderManager
+						.getDefaultProvider();
+
 				QueueingConsumer.Delivery delivery = consumer.nextDelivery();
 				String message = new String(delivery.getBody());
 				// System.out.println(" [x] Received '" + message + "'");
@@ -46,6 +54,7 @@ public class WorkerServer {
 							.unmarshal(new StringReader(message));
 					System.out.println("OPC_Double erstellt");
 					System.out.println(opcdouble.get_value());
+					epService.getEPRuntime().sendEvent(opcdouble);
 				} else if (message.contains("opcInteger")) {
 					JAXBContext jaxbContext = JAXBContext
 							.newInstance(OPC_Integer.class);
@@ -56,6 +65,7 @@ public class WorkerServer {
 							.unmarshal(new StringReader(message));
 					System.out.println("OPC_Integer erstellt");
 					System.out.println(opcint.get_value());
+					epService.getEPRuntime().sendEvent(opcint);
 				} else {
 					System.out.println("Type unknown");
 				}
