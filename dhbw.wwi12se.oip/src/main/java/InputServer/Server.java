@@ -22,6 +22,7 @@ import Model.OPC_Double;
 import Model.OPC_Float;
 import Model.OPC_Integer;
 import Model.OPC_String;
+import Stuff.AppSetting;
 
 import com.prosysopc.ua.ApplicationIdentity;
 import com.prosysopc.ua.SecureIdentityException;
@@ -32,52 +33,49 @@ import com.prosysopc.ua.client.MonitoredDataItemListener;
 import com.prosysopc.ua.client.Subscription;
 import com.prosysopc.ua.client.UaClient;
 
-public class Server {
-	public static String sourcesystem = "opc.tcp://localhost:53530/OPCUA/SimulationServer";
-
-	public static void main(String[] args) throws Exception {
+public class Server
+{
+	public static void main(String[] args) throws Exception
+	{
 
 		// Create client object
-		UaClient client = new UaClient(sourcesystem);
+		UaClient client = new UaClient(AppSetting.sourceSystem[0]);
 		client.setSecurityMode(SecurityMode.NONE);
 
 		initialize(client);
 		client.connect();
-		DataValue value = client
-				.readValue(Identifiers.Server_ServerStatus_State);
+		DataValue value = client.readValue(Identifiers.Server_ServerStatus_State);
 
 		client.getAddressSpace().setMaxReferencesPerNode(1000);
 		NodeId nid = Identifiers.RootFolder;
 
-		List<ReferenceDescription> references = client.getAddressSpace()
-				.browse(nid);
+		List<ReferenceDescription> references = client.getAddressSpace().browse(nid);
 
 		// Example of Namespace Browsing
 		NodeId target;
 		ReferenceDescription r = references.get(0);
 
-		target = client.getAddressSpace().getNamespaceTable()
-				.toNodeId(r.getNodeId());
+		target = client.getAddressSpace().getNamespaceTable().toNodeId(r.getNodeId());
 		references = client.getAddressSpace().browse(target);
 		r = references.get(4);
-		target = client.getAddressSpace().getNamespaceTable()
-				.toNodeId(r.getNodeId());
+		target = client.getAddressSpace().getNamespaceTable().toNodeId(r.getNodeId());
 
 		ArrayList<NodeId> targets = new ArrayList<NodeId>();
-		for (Targets targets2 : Targets.values()) {
-			targets.add(new NodeId(targets2.getNameSpace(), targets2
-					.getSensorName()));
+		for (Targets targets2 : Targets.values())
+		{
+			targets.add(new NodeId(targets2.getNameSpace(), targets2.getSensorName()));
 		}
 		generateSubscriptions(client, targets);
 	}
 
-	private static void generateSubscriptions(UaClient client,
-			ArrayList<NodeId> targets) throws ServiceException, StatusException {
+	private static void generateSubscriptions(UaClient client, ArrayList<NodeId> targets) throws ServiceException,
+			StatusException
+	{
 		Subscription subscription = new Subscription();
 		ArrayList<MonitoredDataItem> items = new ArrayList<MonitoredDataItem>();
-		for (NodeId nodeId : targets) {
-			MonitoredDataItem dataItem = new MonitoredDataItem(nodeId,
-					Attributes.Value, MonitoringMode.Reporting);
+		for (NodeId nodeId : targets)
+		{
+			MonitoredDataItem dataItem = new MonitoredDataItem(nodeId, Attributes.Value, MonitoringMode.Reporting);
 			subscription.addItem(dataItem);
 			items.add(dataItem);
 		}
@@ -88,17 +86,17 @@ public class Server {
 	/**
 	 * @param {@link MonitoredDataItem}
 	 */
-	private static void setDataChangeListeners(
-			ArrayList<MonitoredDataItem> items) {
-		for (MonitoredDataItem monitoredDataItem : items) {
-			monitoredDataItem
-					.setDataChangeListener(new MonitoredDataItemListener() {
-
-						public void onDataChange(MonitoredDataItem arg0,
-								DataValue arg1, DataValue arg2) {
-							ObjectToXml.convert(createOPC(arg0, arg1, arg2));
-						}
-					});
+	private static void setDataChangeListeners(ArrayList<MonitoredDataItem> items)
+	{
+		for (MonitoredDataItem monitoredDataItem : items)
+		{
+			monitoredDataItem.setDataChangeListener(new MonitoredDataItemListener()
+			{
+				public void onDataChange(MonitoredDataItem arg0, DataValue arg1, DataValue arg2)
+				{
+					ObjectToXml.convert(createOPC(arg0, arg1, arg2));
+				}
+			});
 		}
 	}
 
@@ -111,23 +109,30 @@ public class Server {
 	 * @param dataValue2
 	 * @return {@link OPC}
 	 */
-	private static OPC createOPC(MonitoredDataItem monitoredDataItem,
-			DataValue dataValue, DataValue dataValue2) {
-		try {
+	private static OPC createOPC(MonitoredDataItem monitoredDataItem, DataValue dataValue, DataValue dataValue2)
+	{
+		try
+		{
 			Object dataValueObject = dataValue.getValue().getValue();
-			if (dataValueObject instanceof Double) {
-				return new OPC_Double(sourcesystem, monitoredDataItem,
-						dataValue);
-			} else if (dataValueObject instanceof Integer) {
-				return new OPC_Integer(sourcesystem, monitoredDataItem,
-						dataValue);
-			} else if (dataValueObject instanceof Float) {
-				return new OPC_Float(sourcesystem, monitoredDataItem, dataValue);
-			} else if (dataValueObject instanceof String) {
-				return new OPC_String(sourcesystem, monitoredDataItem,
-						dataValue);
+			if (dataValueObject instanceof Double)
+			{
+				return new OPC_Double(AppSetting.sourceSystem[0], monitoredDataItem, dataValue);
 			}
-		} catch (NullPointerException e) {
+			else if (dataValueObject instanceof Integer)
+			{
+				return new OPC_Integer(AppSetting.sourceSystem[0], monitoredDataItem, dataValue);
+			}
+			else if (dataValueObject instanceof Float)
+			{
+				return new OPC_Float(AppSetting.sourceSystem[0], monitoredDataItem, dataValue);
+			}
+			else if (dataValueObject instanceof String)
+			{
+				return new OPC_String(AppSetting.sourceSystem[0], monitoredDataItem, dataValue);
+			}
+		}
+		catch (NullPointerException e)
+		{
 			System.out.println(e.getMessage());
 			return null;
 		}
@@ -142,12 +147,11 @@ public class Server {
 	 * @throws IOException
 	 * @throws UnknownHostException
 	 */
-	protected static void initialize(UaClient client)
-			throws SecureIdentityException, IOException, UnknownHostException {
+	protected static void initialize(UaClient client) throws SecureIdentityException, IOException, UnknownHostException
+	{
 		// *** Application Description is sent to the server
 		ApplicationDescription appDescription = new ApplicationDescription();
-		appDescription.setApplicationName(new LocalizedText("DHBW Client",
-				Locale.GERMAN));
+		appDescription.setApplicationName(new LocalizedText("DHBW Client", Locale.GERMAN));
 
 		// 'localhost' (all lower case) in the URI is converted to the actual
 		// host name of the computer in which the application is run
