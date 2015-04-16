@@ -7,6 +7,7 @@ import javax.xml.bind.Unmarshaller;
 
 import Model.OPC_Double;
 import Model.OPC_Integer;
+import Model.OPC_String;
 
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPServiceProviderManager;
@@ -64,6 +65,28 @@ public class WorkerServer {
 					OPC_Integer opcint = (OPC_Integer) jaxbUnmarshaller
 							.unmarshal(new StringReader(message));
 					System.out.println("OPC_Integer erstellt");
+					System.out.println(opcint.get_value());
+					epService.getEPRuntime().sendEvent(opcint);
+				} else if (message.contains("OPC_Integer")) {
+					JAXBContext jaxbContext = JAXBContext
+							.newInstance(OPC_String.class);
+
+					Unmarshaller jaxbUnmarshaller = jaxbContext
+							.createUnmarshaller();
+					OPC_String opcint = (OPC_String) jaxbUnmarshaller
+							.unmarshal(new StringReader(message));
+					System.out.println("piTag erstellt");
+					System.out.println(opcint.get_value());
+					epService.getEPRuntime().sendEvent(opcint);
+				} else if (message.contains("opcString")) {
+					JAXBContext jaxbContext = JAXBContext
+							.newInstance(OPC_String.class);
+
+					Unmarshaller jaxbUnmarshaller = jaxbContext
+							.createUnmarshaller();
+					OPC_String opcint = (OPC_String) jaxbUnmarshaller
+							.unmarshal(new StringReader(message));
+					System.out.println("OPC_String erstellt");
 					System.out.println(opcint.get_value());
 					epService.getEPRuntime().sendEvent(opcint);
 				} else {
