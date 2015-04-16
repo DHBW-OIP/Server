@@ -5,7 +5,7 @@ import java.io.StringReader;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import Model.OPC_Double;
+import Model.OPC_Boolean;
 import Model.OPC_Integer;
 import Model.OPC_String;
 
@@ -45,15 +45,15 @@ public class WorkerServer {
 				String message = new String(delivery.getBody());
 				// System.out.println(" [x] Received '" + message + "'");
 
-				if (message.contains("opcDouble")) {
+				if (message.contains("opcBoolean")) {
 					JAXBContext jaxbContext = JAXBContext
-							.newInstance(OPC_Double.class);
+							.newInstance(OPC_Boolean.class);
 
 					Unmarshaller jaxbUnmarshaller = jaxbContext
 							.createUnmarshaller();
-					OPC_Double opcdouble = (OPC_Double) jaxbUnmarshaller
+					OPC_Boolean opcdouble = (OPC_Boolean) jaxbUnmarshaller
 							.unmarshal(new StringReader(message));
-					System.out.println("OPC_Double erstellt");
+					System.out.println("OPC_Boolean erstellt");
 					System.out.println(opcdouble.get_value());
 					epService.getEPRuntime().sendEvent(opcdouble);
 				} else if (message.contains("opcInteger")) {
